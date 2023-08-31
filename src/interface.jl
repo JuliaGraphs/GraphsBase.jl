@@ -70,16 +70,19 @@ abstract type AbstractBidirectionalGraph{V, E} <: AbstractGraph{V, E} end
 @traitdef IsVertexStable{G<:AbstractGraph}
 @traitimpl IsVertexStable{G} <- is_vertex_stable(G)
 
+
+# TODO: We can't define isless because it is type piracy. 
+# We should probably document that it needs isless and == to be implemented
 #
 # Interface for AbstractVertex
 #
-import Base.isless#, Base.:(==)
-"""
-    isless(v1, v2)
+# import Base.isless
+# """
+#     isless(v1, v2)
 
-Return true if vertex v1 is less than vertex v2 in lexicographic order.
-"""
-@traitfn Base.isless(v1::V, v2::V) where {V; AbstractVertex{V}} = _NI("src")
+# Return true if vertex v1 is less than vertex v2 in lexicographic order.
+# """
+# @traitfn Base.isless(v1::V, v2::V) where {V; AbstractVertex{V}} = _NI("src")
 
 # @traitfn Base.:(==)(v1::V, v2::V) where {V; AbstractVertex{V}} = _NI("==")
 

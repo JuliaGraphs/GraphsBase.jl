@@ -10,7 +10,7 @@ using SimpleTraits
 
 export
 # Interface
-AbstractVertex, is_vertex, AbstractEdge, AbstractWeightedEdge, AbstractEdgeIter,
+AbstractVertex, is_vertex, AbstractEdge, AbstractEdgeIter,
 AbstractGraph, vertices, edges, edgetype, nv, ne, src, dst,
 is_directed, IsDirected, is_range_based, IsRangeBased, is_simply_mutable, IsSimplyMutable,
 is_mutable, IsMutable, is_weight_mutable, IsWeightMutable, is_vertex_stable, IsVertexStable,
