@@ -1,4 +1,5 @@
 using GraphsBase
+using Graphs
 using Documenter
 
 DocMeta.setdocmeta!(GraphsBase, :DocTestSetup, :(using GraphsBase); recursive=true)
