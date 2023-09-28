@@ -22,5 +22,21 @@ DocMeta.setdocmeta!(GraphsBase, :DocTestSetup, :(using GraphsBase); recursive=tr
             JET.test_package(GraphsBase; target_modules=(GraphsBase,))
         end
     end
-    # Put the actual tests here
+    @testset "Interface" begin
+        @testset "Utils" begin
+            include("interface/utils.jl")
+        end
+        @testset "AbstractEdge" begin
+            include("interface/abstractedge.jl")
+        end
+        @testset "AbstractGraph" begin
+            include("interface/abstractgraph.jl")
+        end
+    end
+    @testset "SimpleGraphs" begin
+        include("SimpleGraphs/SimpleGraphs.jl")
+    end
+    @testset "SimpleWeightedGraphs" begin
+        include("SimpleWeightedGraphs/SimpleWeightedGraphs.jl")
+    end
 end
