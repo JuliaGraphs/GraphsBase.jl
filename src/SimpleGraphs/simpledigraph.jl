@@ -24,7 +24,6 @@ function SimpleDiGraph(
     return SimpleDiGraph{T}(ne, fadjlist, badjlist)
 end
 
-
 # DiGraph{UInt8}(6), DiGraph{Int16}(7), DiGraph{Int8}()
 """
     SimpleDiGraph{T}(n=0)
@@ -179,7 +178,7 @@ julia> SimpleDiGraph(g)
 """
 function SimpleDiGraph(g::AbstractSimpleGraph)
     h = SimpleDiGraph(nv(g))
-    num_self_loops = sum(v -> has_edge(g, v, v), vertices(g); init = 0)
+    num_self_loops = sum(v -> has_edge(g, v, v), vertices(g); init=0)
     h.ne = ne(g) * 2 - num_self_loops
     h.fadjlist = deepcopy_adjlist(fadj(g))
     h.badjlist = deepcopy_adjlist(badj(g))

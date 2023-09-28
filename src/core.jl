@@ -25,7 +25,6 @@ false
 """
 is_ordered(e::AbstractEdge) = src(e) <= dst(e)
 
-
 """
     neighbors(g, v)
 
@@ -101,8 +100,7 @@ julia> all_neighbors(g, 3)
 function all_neighbors end
 @traitfn all_neighbors(g::::IsDirected, v::Integer) =
     union(outneighbors(g, v), inneighbors(g, v))
-@traitfn all_neighbors(g::::(!IsDirected), v::Integer) =
-    neighbors(g, v)
+@traitfn all_neighbors(g::::(!IsDirected), v::Integer) = neighbors(g, v)
 
 """
     indegree(g[, v])
@@ -128,7 +126,7 @@ julia> indegree(g)
 ```
 """
 indegree(g::AbstractGraph, v::Integer) = length(inneighbors(g, v))
-indegree(g::AbstractGraph, v::AbstractVector = vertices(g)) = [indegree(g, x) for x in v]
+indegree(g::AbstractGraph, v::AbstractVector=vertices(g)) = [indegree(g, x) for x in v]
 
 """
     outdegree(g[, v])
@@ -154,7 +152,7 @@ julia> outdegree(g)
 ```
 """
 outdegree(g::AbstractGraph, v::Integer) = length(outneighbors(g, v))
-outdegree(g::AbstractGraph, v::AbstractVector = vertices(g)) = [outdegree(g, x) for x in v]
+outdegree(g::AbstractGraph, v::AbstractVector=vertices(g)) = [outdegree(g, x) for x in v]
 
 """
     degree(g[, v])
@@ -185,7 +183,7 @@ function degree end
 @traitfn degree(g::AbstractGraph::(!IsDirected), v::Integer) = indegree(g, v)
 @traitfn degree(g::AbstractGraph::IsDirected, v::Integer) = indegree(g, v) + outdegree(g, v)
 
-degree(g::AbstractGraph, v::AbstractVector = vertices(g)) = [degree(g, x) for x in v]
+degree(g::AbstractGraph, v::AbstractVector=vertices(g)) = [degree(g, x) for x in v]
 
 """
     has_self_loops(g)
@@ -209,7 +207,8 @@ julia> has_self_loops(g)
 true
 ```
 """
-has_self_loops(g::AbstractGraph) = nv(g) == 0 ? false : any(v -> has_edge(g, v, v), vertices(g))
+has_self_loops(g::AbstractGraph) =
+    nv(g) == 0 ? false : any(v -> has_edge(g, v, v), vertices(g))
 
 """
     add_vertices!(g, n)
@@ -228,7 +227,8 @@ julia> add_vertices!(g, 2)
 2
 ```
 """
-@traitfn add_vertices!(g::AbstractGraph::IsSimplyMutable, n::Integer) = sum([add_vertex!(g) for i = 1:n])
+@traitfn add_vertices!(g::AbstractGraph::IsSimplyMutable, n::Integer) =
+    sum([add_vertex!(g) for i in 1:n])
 
 """
     weights(g)

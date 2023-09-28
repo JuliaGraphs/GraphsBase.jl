@@ -2,29 +2,72 @@ module GraphsBase
 
 using SimpleTraits
 
-
 # import Base: adjoint, write, ==, <, *, ≈, convert, isless, issubset,
 #             reverse, reverse!, isassigned, getindex, setindex!, show,
 #             print, copy, in, sum, size, eltype, length, ndims, transpose,
 #             iterate, eltype, get, Pair, Tuple, zero
 
 export
-# Interface
-AbstractVertex, is_vertex, AbstractEdge, AbstractEdgeIter,
-AbstractGraph, vertices, edges, edgetype, nv, ne, src, dst,
-is_directed, IsDirected, is_range_based, IsRangeBased, is_simply_mutable, IsSimplyMutable,
-is_mutable, IsMutable, is_weight_mutable, IsWeightMutable, is_vertex_stable, IsVertexStable,
-has_vertex, has_edge, inneighbors, outneighbors, outedges, inedges,
-weight, get_vertex_container, get_edge_container,
-Edge, Graph, SimpleGraph, SimpleGraphFromIterator, DiGraph, SimpleDiGraphFromIterator,
-SimpleDiGraph,
+    # Interface
+    AbstractVertex,
+    is_vertex,
+    AbstractEdge,
+    AbstractEdgeIter,
+    AbstractGraph,
+    vertices,
+    edges,
+    edgetype,
+    nv,
+    ne,
+    src,
+    dst,
+    is_directed,
+    IsDirected,
+    is_range_based,
+    IsRangeBased,
+    is_simply_mutable,
+    IsSimplyMutable,
+    is_mutable,
+    IsMutable,
+    is_weight_mutable,
+    IsWeightMutable,
+    is_vertex_stable,
+    IsVertexStable,
+    has_vertex,
+    has_edge,
+    inneighbors,
+    outneighbors,
+    outedges,
+    inedges,
+    weight,
+    get_vertex_container,
+    get_edge_container,
+    Edge,
+    Graph,
+    SimpleGraph,
+    SimpleGraphFromIterator,
+    DiGraph,
+    SimpleDiGraphFromIterator,
+    SimpleDiGraph,
 
-# core
-is_ordered, add_vertices!, indegree, outdegree, degree,
-neighbors, all_neighbors, has_self_loops, weights,
+    # core
+    is_ordered,
+    add_vertices!,
+    indegree,
+    outdegree,
+    degree,
+    neighbors,
+    all_neighbors,
+    has_self_loops,
+    weights,
 
-# simplegraphs
-add_edge!, add_vertex!, add_vertices!, rem_edge!, rem_vertex!, rem_vertices!
+    # simplegraphs
+    add_edge!,
+    add_vertex!,
+    add_vertices!,
+    rem_edge!,
+    rem_vertex!,
+    rem_vertices!
 
 """
     GraphsBase

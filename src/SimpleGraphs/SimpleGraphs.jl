@@ -9,20 +9,52 @@ import Base:
     eltype, show, ==, Pair, Tuple, copy, length, issubset, reverse, zero, in, iterate
 
 import GraphsBase:
-    _NI, AbstractGraph, AbstractEdge, AbstractEdgeIter,
-    src, dst, edgetype, nv, ne, vertices, edges, outedges, inedges, is_directed,
-	is_simply_mutable, is_range_based,
-    has_vertex, has_edge, inneighbors, outneighbors, all_neighbors,
-	get_vertex_container, get_edge_container,
-    deepcopy_adjlist, indegree, outdegree, degree, has_self_loops,
+    _NI,
+    AbstractGraph,
+    AbstractEdge,
+    AbstractEdgeIter,
+    src,
+    dst,
+    edgetype,
+    nv,
+    ne,
+    vertices,
+    edges,
+    outedges,
+    inedges,
+    is_directed,
+    is_simply_mutable,
+    is_range_based,
+    has_vertex,
+    has_edge,
+    inneighbors,
+    outneighbors,
+    all_neighbors,
+    get_vertex_container,
+    get_edge_container,
+    deepcopy_adjlist,
+    indegree,
+    outdegree,
+    degree,
+    has_self_loops,
     insorted
 
-export AbstractSimpleGraph, AbstractSimpleEdge,
-    SimpleEdge, SimpleGraph, SimpleGraphFromIterator, SimpleGraphEdge,
-    SimpleDiGraph, SimpleDiGraphFromIterator, SimpleDiGraphEdge,
-    add_vertex!, add_edge!, rem_vertex!, rem_vertices!, rem_edge!
+export AbstractSimpleGraph,
+    AbstractSimpleEdge,
+    SimpleEdge,
+    SimpleGraph,
+    SimpleGraphFromIterator,
+    SimpleGraphEdge,
+    SimpleDiGraph,
+    SimpleDiGraphFromIterator,
+    SimpleDiGraphEdge,
+    add_vertex!,
+    add_edge!,
+    rem_vertex!,
+    rem_vertices!,
+    rem_edge!
 
-abstract type AbstractSimpleEdge{T<:Integer} <: AbstractEdge{T, Int} end
+abstract type AbstractSimpleEdge{T<:Integer} <: AbstractEdge{T,Int} end
 
 """
     AbstractSimpleGraph
@@ -33,14 +65,14 @@ An abstract type representing a simple graph structure.
   - `fadjlist::Vector{Vector{Integer}}`
   - `ne::Integer`
 """
-abstract type AbstractSimpleGraph{T<:Integer} <: AbstractGraph{T, AbstractSimpleEdge{T}} end
+abstract type AbstractSimpleGraph{T<:Integer} <: AbstractGraph{T,AbstractSimpleEdge{T}} end
 
-function show(io::IO, ::MIME"text/plain", g::AbstractSimpleGraph{T}) where T
+function show(io::IO, ::MIME"text/plain", g::AbstractSimpleGraph{T}) where {T}
     dir = is_directed(g) ? "directed" : "undirected"
-    print(io, "{$(nv(g)), $(ne(g))} $dir simple $T graph")
+    return print(io, "{$(nv(g)), $(ne(g))} $dir simple $T graph")
 end
 
-nv(g::AbstractSimpleGraph{T}) where T = T(length(fadj(g)))
+nv(g::AbstractSimpleGraph{T}) where {T} = T(length(fadj(g)))
 vertices(g::AbstractSimpleGraph) = Base.OneTo(nv(g))
 
 """
@@ -57,24 +89,22 @@ function throw_if_invalid_eltype(T::Type{<:Integer})
     end
 end
 
-
 edges(g::AbstractSimpleGraph) = SimpleEdgeIter(g)
-
 
 fadj(g::AbstractSimpleGraph) = g.fadjlist
 fadj(g::AbstractSimpleGraph, v::Integer) = g.fadjlist[v]
-
 
 badj(x...) = _NI("badj")
 
 # handles single-argument edge constructors such as pairs and tuples
 has_edge(g::AbstractSimpleGraph, x) = has_edge(g, edgetype(g)(x))
 add_edge!(g::AbstractSimpleGraph, x) = add_edge!(g, edgetype(g)(x))
-@traitfn get_edges(g::AbstractSimpleGraph::IsDirected, u, v) = has_edge(g, u, v) ? [Edge(u, v)] : Edge[]
+@traitfn get_edges(g::AbstractSimpleGraph::IsDirected, u, v) =
+    has_edge(g, u, v) ? [Edge(u, v)] : Edge[]
 @traitfn function get_edges(g::AbstractSimpleGraph::(!IsDirected), u, v)
-	!has_edge(g, u, v) && return Edge[]
-	u < v && return [Edge(u, v)]
-	return [Edge(v, u)]
+    !has_edge(g, u, v) && return Edge[]
+    u < v && return [Edge(u, v)]
+    return [Edge(v, u)]
 end
 
 # handles two-argument edge constructors like src,dst
@@ -89,7 +119,7 @@ inedges(g::AbstractSimpleGraph, v::Integer) = Edge.(v, inneighbors(g, v))
 get_vertex_container(g::AbstractSimpleGraph, K::Type) = Vector{K}(undef, nv(g))
 # get_edge_container(g::AbstractGraph, K::Type) = Array{K, 2}(undef, (nv(g), nv(g))
 
-function issubset(g::T, h::T) where T <: AbstractSimpleGraph
+function issubset(g::T, h::T) where {T<:AbstractSimpleGraph}
     nv(g) <= nv(h) || return false
     for u in vertices(g)
         u_nbrs_g = neighbors(g, u)
@@ -98,7 +128,7 @@ function issubset(g::T, h::T) where T <: AbstractSimpleGraph
         u_nbrs_h = neighbors(h, u)
         p = 1
         len_u_nbrs_g > length(u_nbrs_h) && return false
-		(u_nbrs_g[1] < u_nbrs_h[1] || u_nbrs_g[end] > u_nbrs_h[end]) && return false
+        (u_nbrs_g[1] < u_nbrs_h[1] || u_nbrs_g[end] > u_nbrs_h[end]) && return false
         @inbounds for v in u_nbrs_h
             if v == u_nbrs_g[p]
                 p == len_u_nbrs_g && break
@@ -114,8 +144,8 @@ has_vertex(g::AbstractSimpleGraph, v::Integer) = v in vertices(g)
 
 ne(g::AbstractSimpleGraph) = g.ne
 
-function rem_edge!(g::AbstractSimpleGraph{T}, u::Integer, v::Integer) where T
-    rem_edge!(g, edgetype(g)(T(u), T(v)))
+function rem_edge!(g::AbstractSimpleGraph{T}, u::Integer, v::Integer) where {T}
+    return rem_edge!(g, edgetype(g)(T(u), T(v)))
 end
 
 """

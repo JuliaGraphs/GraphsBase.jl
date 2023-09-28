@@ -11,7 +11,9 @@ struct NotImplementedError{M} <: Exception
     NotImplementedError(m::M) where {M} = new{M}(m)
 end
 
-Base.showerror(io::IO, ie::NotImplementedError) = print(io, "method $(ie.m) not implemented.")
+function Base.showerror(io::IO, ie::NotImplementedError)
+    return print(io, "method $(ie.m) not implemented.")
+end
 
 _NI(m) = throw(NotImplementedError(m))
 
@@ -21,7 +23,7 @@ _NI(m) = throw(NotImplementedError(m))
 A trait representing a single vertex.
 """
 @traitdef AbstractVertex{V}
-@traitimpl AbstractVertex{V} <- is_vertex(V)
+@traitimpl AbstractVertex{V} < -is_vertex(V)
 
 """
     AbstractEdge
@@ -30,7 +32,7 @@ An abstract type representing a single edge between two vertices of a graph.
 - `V`: Vertex type
 - `U`: Weight type
 """
-abstract type AbstractEdge{V, U} end
+abstract type AbstractEdge{V,U} end
 # abstract type AbstractWeightedEdge{V, U} <: AbstractEdge{V} end
 
 """
@@ -48,28 +50,27 @@ An abstract type representing a multi-graph.
 - `E` : Edge type
 
 """
-abstract type AbstractGraph{V, E<:AbstractEdge{V}} end
+abstract type AbstractGraph{V,E<:AbstractEdge{V}} end
 
-abstract type AbstractBidirectionalGraph{V, E} <: AbstractGraph{V, E} end
+abstract type AbstractBidirectionalGraph{V,E} <: AbstractGraph{V,E} end
 
 @traitdef IsDirected{G<:AbstractGraph}
-@traitimpl IsDirected{G} <- is_directed(G)
+@traitimpl IsDirected{G} < -is_directed(G)
 
 @traitdef IsRangeBased{G<:AbstractGraph}
-@traitimpl IsRangeBased{G} <- is_range_based(G)
+@traitimpl IsRangeBased{G} < -is_range_based(G)
 
 @traitdef IsSimplyMutable{G<:AbstractGraph}
-@traitimpl IsSimplyMutable{G} <- is_simply_mutable(G)
+@traitimpl IsSimplyMutable{G} < -is_simply_mutable(G)
 
 @traitdef IsMutable{G<:AbstractGraph}
-@traitimpl IsMutable{G} <- is_mutable(G)
+@traitimpl IsMutable{G} < -is_mutable(G)
 
 @traitdef IsWeightMutable{G<:AbstractGraph}
-@traitimpl IsWeightMutable{G} <- is_weight_mutable(G)
+@traitimpl IsWeightMutable{G} < -is_weight_mutable(G)
 
 @traitdef IsVertexStable{G<:AbstractGraph}
-@traitimpl IsVertexStable{G} <- is_vertex_stable(G)
-
+@traitimpl IsVertexStable{G} < -is_vertex_stable(G)
 
 # TODO: We can't define isless because it is type piracy. 
 # We should probably document that it needs isless and == to be implemented
@@ -103,7 +104,7 @@ hash(v::AbstractEdge) = _NI("hash")
 
 Return true if edge e1 is less than edge e2 in lexicographic order.
 """
-isless(v1::AbstractEdge , v2::AbstractEdge) = _NI("src")
+isless(v1::AbstractEdge, v2::AbstractEdge) = _NI("src")
 
 ==(e1::AbstractEdge, e2::AbstractEdge) = _NI("==")
 
@@ -150,8 +151,7 @@ dst(e::AbstractEdge) = _NI("dst")
 
 Return the weight of edge `e`.
 """
-weight(e::AbstractEdge{V, U}) where {V, U} = one(U)
-
+weight(e::AbstractEdge{V,U}) where {V,U} = one(U)
 
 Pair(e::AbstractEdge) = _NI("Pair")
 Tuple(e::AbstractEdge) = _NI("Tuple")
@@ -175,7 +175,6 @@ Edge 2 => 1
 """
 reverse(e::AbstractEdge) = _NI("reverse")
 
-
 #
 # Interface for AbstractGraphs
 #
@@ -184,15 +183,14 @@ reverse(e::AbstractEdge) = _NI("reverse")
 
 Return the type of graph `g`'s edge
 """
-edgetype(g::AbstractGraph{V, E}) where {V, E} = E
+edgetype(g::AbstractGraph{V,E}) where {V,E} = E
 
 """
     eltype(g)
 
 Return the type of the graph's vertices
 """
-eltype(g::AbstractGraph{V, E}) where {V, E} = V
-
+eltype(g::AbstractGraph{V,E}) where {V,E} = V
 
 """
     vertices(g)
@@ -238,7 +236,8 @@ julia> collect(get_edges(g, 1, 2))
  Edge 1 => 2
 ```
 """
-@traitfn get_edges(g::AbstractGraph, u::V, v::V) where {V; AbstractVertex{V}} = _NI("get_edges")
+@traitfn get_edges(g::AbstractGraph, u::V, v::V) where {V; AbstractVertex{V}} =
+    _NI("get_edges")
 
 """
     edges(g)
@@ -344,7 +343,6 @@ julia> ne(g)
 """
 ne(g::AbstractGraph) = length(edges(g))
 
-
 """
     is_vertex(G)
 
@@ -352,7 +350,7 @@ Return `true` if the graph type `V` is an AbstractVertex ; `false` otherwise.
 The method can also be called with `is_vertex(v::V)`
 """
 is_vertex(::V) where {V} = is_vertex(V)
-is_vertex(::Type{T}) where T = _NI("is_vertex")
+is_vertex(::Type{T}) where {T} = _NI("is_vertex")
 is_vertex(::Type{<:Integer}) = true
 
 """
@@ -376,7 +374,7 @@ true
 ```
 """
 is_directed(::G) where {G} = is_directed(G)
-is_directed(::Type{T}) where T = _NI("is_directed")
+is_directed(::Type{T}) where {T} = _NI("is_directed")
 
 """
     is_range_based(G)
@@ -386,7 +384,7 @@ New graph types must implement `is_range_based(::Type{<:G})`.
 The method can also be called with `is_range_based(g::G)`
 """
 is_range_based(::G) where {G} = is_range_based(G)
-is_range_based(::Type{T}) where T = false
+is_range_based(::Type{T}) where {T} = false
 
 """
     is_simply_mutable(G)
@@ -397,7 +395,7 @@ New graph types must implement `is_simply_mutable(::Type{<:G})`.
 The method can also be called with `is_simply_mutable(g::G)`
 """
 is_simply_mutable(::G) where {G} = is_simply_mutable(G)
-is_simply_mutable(::Type{T}) where T = false
+is_simply_mutable(::Type{T}) where {T} = false
 
 """
     is_mutable(G)
@@ -408,7 +406,7 @@ New graph types must implement `is_mutable(::Type{<:G})`.
 The method can also be called with `is_mutable(g::G)`
 """
 is_mutable(::G) where {G} = is_mutable(G)
-is_mutable(::Type{T}) where T = false
+is_mutable(::Type{T}) where {T} = false
 
 """
     is_weight_mutable(G)
@@ -419,7 +417,7 @@ New graph types must implement `is_weight_mutable(::Type{<:G})`.
 The method can also be called with `is_weight_mutable(g::G)`
 """
 is_weight_mutable(::G) where {G} = is_weight_mutable(G)
-is_weight_mutable(::Type{T}) where T = false
+is_weight_mutable(::Type{T}) where {T} = false
 
 """
     is_vertex_stable(G)
@@ -430,7 +428,7 @@ New graph types must implement `is_vertex_stable(::Type{<:G})`.
 The method can also be called with `is_vertex_stable(g::G)`
 """
 is_vertex_stable(::G) where {G} = is_vertex_stable(G)
-is_vertex_stable(::Type{T}) where T = false
+is_vertex_stable(::Type{T}) where {T} = false
 
 """
     has_vertex(g, v)
@@ -538,14 +536,14 @@ julia> length(c)
 5
 ```
 """
-get_vertex_container(g::AbstractGraph{V}, K::Type) where V = Dict{V, K}()
+get_vertex_container(g::AbstractGraph{V}, K::Type) where {V} = Dict{V,K}()
 
 """
     get_edge_container(g::AbstractGraph, K::Type)
 
 Return a container indexed by edges of 'g' of eltype 'K'.
 """
-get_edge_container(g::AbstractGraph{V, E}, K::Type) where {V, E} = Dict{E, K}()
+get_edge_container(g::AbstractGraph{V,E}, K::Type) where {V,E} = Dict{E,K}()
 
 """
     zero(G)
@@ -566,4 +564,4 @@ julia> zero(g)
 """
 zero(::Type{<:AbstractGraph}) = _NI("zero")
 
-zero(g::G) where {G<: AbstractGraph} = zero(G)
+zero(g::G) where {G<:AbstractGraph} = zero(G)
