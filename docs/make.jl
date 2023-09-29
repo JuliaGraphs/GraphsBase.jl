@@ -10,7 +10,7 @@ makedocs(;
     format=Documenter.HTML(;
         repolink="https://github.com/JuliaGraphs/GraphsBase.jl",
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://JuliaGraphs.github.io/GraphsBase.jl",
+        canonical="https://juliagraphs.org/GraphsBase.jl",
         edit_link="main",
         assets=String[],
     ),
