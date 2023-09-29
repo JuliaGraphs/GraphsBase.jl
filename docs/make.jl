@@ -8,10 +8,8 @@ makedocs(;
     authors="JuliaGraphs contributors",
     sitename="GraphsBase.jl",
     format=Documenter.HTML(;
-        repolink="https://github.com/JuliaGraphs/GraphsBase.jl",
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://juliagraphs.org/GraphsBase.jl",
-        edit_link="main",
         assets=String[],
     ),
     pages=["Home" => "index.md"],
