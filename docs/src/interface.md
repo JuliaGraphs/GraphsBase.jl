@@ -59,8 +59,3 @@ GraphsBase.check_comparable_interface
 GraphsBase.check_edge_interface
 GraphsBase.check_graph_interface
 ```
-
-## Index
-
-```@index
-```

@@ -11,8 +11,3 @@ Modules = [GraphsBase.SimpleGraphs]
 ```@autodocs
 Modules = [GraphsBase.SimpleWeightedGraphs]
 ```
-
-## Index
-
-```@index
-```
