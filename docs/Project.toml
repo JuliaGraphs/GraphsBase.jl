@@ -1,3 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GraphsBase = "ad2ac648-372e-45be-9d57-a550431b71c3"
+
+[compat]
+Documenter = "1"

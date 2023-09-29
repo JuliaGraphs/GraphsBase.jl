@@ -4,6 +4,13 @@ CurrentModule = GraphsBase
 
 # GraphsBase
 
-```@docs
-GraphsBase
+## API reference
+
+```@autodocs
+Modules = [GraphsBase]
+```
+
+## Index
+
+```@index
 ```
