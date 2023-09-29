@@ -1,5 +1,8 @@
-module GraphsBase
+"""
+    GraphsBase
 
-# Write your package code here.
+The basic interface and graph types for the JuliaGraphs ecosystem.
+"""
+module GraphsBase
 
 end
