@@ -6,10 +6,8 @@ CurrentModule = GraphsBase
 
 Documentation for [GraphsBase](https://github.com/JuliaGraphs/GraphsBase.jl).
 
-## API reference
-
-```@autodocs
-Modules = [GraphsBase]
+```@docs
+GraphsBase
 ```
 
 ## Index

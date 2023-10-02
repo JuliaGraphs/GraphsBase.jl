@@ -12,7 +12,11 @@ makedocs(;
         canonical="https://juliagraphs.org/GraphsBase.jl",
         assets=String[],
     ),
-    pages=["Home" => "index.md"],
+    pages=[
+        "Home" => "index.md",
+        "Interface" => "interface.md",
+        "Implementations" => "implementations.md",
+    ],
 )
 
 deploydocs(;

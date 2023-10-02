@@ -3,7 +3,14 @@ uuid = "ad2ac648-372e-45be-9d57-a550431b71c3"
 authors = ["JuliaGraphs contributors"]
 version = "0.1.0-DEV"
 
+[deps]
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+SimpleTraits = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+
 [compat]
+DocStringExtensions = "0.9"
+SimpleTraits = "0.9"
 julia = "1.6"
 
 [extras]
