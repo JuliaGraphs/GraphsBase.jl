@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.6'
           - '1'
           - 'nightly'
         os:
@@ -27,8 +26,6 @@ jobs:
         arch:
           - x64
         include:
-          - version: '1.6'
-            allow_failure: false
           - version: '1'
             allow_failure: false
           - version: 'nightly'
