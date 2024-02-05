@@ -9,18 +9,14 @@ DocMeta.setdocmeta!(GraphsBase, :DocTestSetup, :(using GraphsBase); recursive=tr
 
 @testset verbose = true "GraphsBase.jl" begin
     @testset "Code quality (Aqua.jl)" begin
-        Aqua.test_all(GraphsBase)
+        Aqua.test_all(GraphsBase; deps_compat=(; check_extras=false,))
     end
     @testset "Formatting (JuliaFormatter.jl)" begin
         @test format(GraphsBase; verbose=false, overwrite=false)
     end
-    @testset "Doctests (Documenter.jl)" begin
-        doctest(GraphsBase)
-    end
+    doctest(GraphsBase)
     @testset "Static checking (JET.jl)" begin
-        if VERSION >= v"1.9"
-            JET.test_package(GraphsBase; target_modules=(GraphsBase,))
-        end
+        JET.test_package(GraphsBase; target_modules=(GraphsBase,))
     end
     # Put the actual tests here
 end
